@@ -28,6 +28,7 @@ jobs:
     - name: Build GridDB PHP client and export library
       run: |
         sudo apt -y install mlocate
+        sudo updatedb
         make
         echo "extension=/home/runner/work/php_client/php_client/griddb_php_client.so" | sudo tee -a /etc/php/7.4/cli/php.ini
         locate php.ini
