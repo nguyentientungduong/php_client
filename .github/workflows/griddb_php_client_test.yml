@@ -29,6 +29,7 @@ jobs:
       run: |
         make
         echo "extension=/home/runner/work/php_client/php_client/griddb_php_client.so" | sudo tee -a /etc/php/7.4/cli/php.ini
+        echo "enable_dl = On" | sudo tee -a /etc/php/7.4/cli/php.ini
         echo "PATH---------------"
         ls -lah /home/runner/work/php_client/php_client/griddb_php_client.so
 
