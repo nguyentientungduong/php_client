@@ -23,8 +23,9 @@ sudo apt -y install software-properties-common
 sudo apt-add-repository ppa:ondrej/php
 sudo apt-get update
 sudo apt -y install php7.4
-locate php7.4
-php --version
+ls /usr/bin
+ls /usr/local/bin
+locate php7
 
 # Install PHP composer
 curl -sS https://getcomposer.org/installer | sudo php
