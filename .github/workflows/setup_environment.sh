@@ -3,15 +3,19 @@
 # Install dependences
 sudo apt-get install gcc-4.8
 sudo apt-get install g++-4.8
+sudo apt-get git -y
 
 # Install C client
 wget https://download.opensuse.org/repositories/home:/knonomura/xUbuntu_18.04/amd64/griddb-c-client_4.5.0_amd64.deb
 sudo dpkg -i griddb-c-client_4.5.0_amd64.deb
 
 # Install SWIG
-wget https://prdownloads.sourceforge.net/swig/swig-4.0.0.tar.gz
-tar xvfz swig-4.0.0.tar.gz
-cd swig-4.0.0
+#wget https://prdownloads.sourceforge.net/swig/swig-4.0.0.tar.gz
+#tar xvfz swig-4.0.0.tar.gz
+#cd swig-4.0.0
+git clone https://github.com/swig/swig.git
+cd swig
+./autogen.sh
 ./configure
 make
 sudo make install
