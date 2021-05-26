@@ -33,6 +33,7 @@ sudo chmod +x /usr/local/bin/composer
 
 # Install Zend Framework
 composer require zendframework/zendframework
-sudo mv /usr/include/php/20190902/* /usr/include/php/
+#sudo mv /usr/include/php/20190902/* /usr/include/php/
+sudo mv /usr/include/php/20200930/* /usr/include/php/
 phpunit --version
 
