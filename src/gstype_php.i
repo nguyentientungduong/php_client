@@ -99,23 +99,22 @@ static void throwGSException(griddb::GSException* exception) {
     zend_class_entry* ce = zend_lookup_class(objTypenameZend);
     zend_string_release(objTypenameZend);
     if (!ce) {
-        SWIG_FAIL();
+        return;
     }
 
     object_and_properties_init(&ex, ce, NULL);
 
     // Constructor, pass resource to constructor argument
     zend_function* constructor = zend_std_get_constructor(Z_OBJ(ex));
-    zend_call_method(&ex, ce, &constructor, NULL, 0, &ctorRv,
-                     1, &resource, NULL TSRMLS_CC);
+    zend_call_method(Z_OBJ(ex), ce, &constructor, NULL, 0, &ctorRv,
+                     1, &resource, NULL);
 
     // Check if no references remaining to ctorRv variable, then destroy it
     if (Z_TYPE(ctorRv) != IS_UNDEF) {
         zval_ptr_dtor(&ctorRv);
     }
-
     // Throw
-    zend_throw_exception_object(&ex);
+    zend_throw_exception_object(&resource);
     }
 }
 
@@ -606,7 +605,7 @@ static bool convertDateTimeObjectToGSTimestamp(zval* datetime,
     };
     call_user_function(EG(function_table), NULL,
             &isAFunctionZval, &isDateTimeZval,
-            ARRAY_SIZE(paramsForIsA), paramsForIsA TSRMLS_CC);
+            ARRAY_SIZE(paramsForIsA), paramsForIsA);
     bool isDateTime = zval_is_true(&isDateTimeZval);
     if (!isDateTime) {
         return false;
@@ -622,7 +621,7 @@ static bool convertDateTimeObjectToGSTimestamp(zval* datetime,
     call_user_function(EG(function_table), NULL,
             &dateTimestampGetFunctionZval,
             &retSecondTimestamp, ARRAY_SIZE(paramsForDateTimestampGet),
-            paramsForDateTimestampGet TSRMLS_CC);
+            paramsForDateTimestampGet);
     int64_t timestampSecond = Z_LVAL(retSecondTimestamp);
 
     // (2)Get timestamp with microsecond
@@ -639,7 +638,7 @@ static bool convertDateTimeObjectToGSTimestamp(zval* datetime,
     call_user_function(EG(function_table), NULL,
             &dateFormatFunctionZval,
             &retMicrosecondTimestamp, ARRAY_SIZE(paramsForDateFormat),
-            paramsForDateFormat TSRMLS_CC);
+            paramsForDateFormat);
     int64_t timestampMicroSecond = atoi(Z_STRVAL(retMicrosecondTimestamp));
 
     // Convert timestamp to milisecond
@@ -935,7 +934,7 @@ static void convertTimestampToDateTimeObject(GSTimestamp* timestamp,
     };
 
     call_user_function(EG(function_table), NULL, &functionNameZval, dateTime,
-            ARRAY_SIZE(params), params TSRMLS_CC);
+            ARRAY_SIZE(params), params);
 }
 }
 
@@ -993,7 +992,7 @@ static void convertToAgrregationResultZvalObj(griddb::AggregationResult* aggResu
     zend_class_entry* ce = zend_lookup_class(objTypenameZend);
     zend_string_release(objTypenameZend);
     if (!ce) {
-        SWIG_FAIL();
+        return;
     }
 
     object_and_properties_init(AggregationResultZvalObject, ce, NULL);
@@ -1001,8 +1000,8 @@ static void convertToAgrregationResultZvalObj(griddb::AggregationResult* aggResu
     // Constructor, pass resource to constructor argument
     zval ctorRv;
     zend_function* constructor = zend_std_get_constructor(Z_OBJ(*AggregationResultZvalObject));
-    zend_call_method(AggregationResultZvalObject, ce, &constructor, NULL,
-                     0, &ctorRv, 1, &resource, NULL TSRMLS_CC);
+    zend_call_method(Z_OBJ(*AggregationResultZvalObject), ce, &constructor, NULL,
+                     0, &ctorRv, 1, &resource, NULL);
 
     // Check if no references remaining to ctorRv variable, then destroy it
     if (Z_TYPE(ctorRv) != IS_UNDEF) {
