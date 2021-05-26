@@ -3,7 +3,7 @@
 # Install dependences
 sudo apt-get install gcc-4.8
 sudo apt-get install g++-4.8
-sudo apt-get git -y
+sudo apt-get install git -y
 
 # Install C client
 wget https://download.opensuse.org/repositories/home:/knonomura/xUbuntu_18.04/amd64/griddb-c-client_4.5.0_amd64.deb
